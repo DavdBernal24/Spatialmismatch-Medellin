@@ -101,74 +101,21 @@ source("20_Wages_Strata.R")
 source("21_Discrete_Cost.R")
 
 
+#22. Computes Accessibility measure for private transport 2017
+source("22_TA_Private_2017.R")
+
+#23. Computes Accessibility measure for private transport 2012
+source("23_TA_Private_2012.R")
+
+#24. Computes Accessibility measure for public transport 2017
+source("24_TA_Public_2017.R")
+
+#25. Computes Accessibility measure for public transport 2012
+source("25_TA_Public_2012.R")
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-#11. It creates a map representing people who live and work inside the same commune
-source("11_Commune_Employment.R")
-
-#12. This code cuts the shapes for Medellin, deleting info of surrounding areas we do not use. 
-source("12_Fixing_Shapes.R")
-
-#13.Using this code we get the wage per-min from the "Encuesta de calidad de vida"
-source("13_Wages_ECV.R") # I made a small change on this code
-
-# 14. Here I identify the socioeconomic strata of each SIT (We did not end up using it)
-
-source("14_Identifying_estrato.R")
-
-#15. Here I find the distance of a SIT centroid to the nearest point in the polygon, we do this in order to compute the 
-# the travel times inside a same zone
-source("13_Average_Distance.R")
-
-#16. computes the employment data using the equation we propose on the paper. 
-source("16_Employment_data.R")
-
-#17. Computes the accessibility measure for private transport in 2017
-source("17_TA_privado_2017_wmin.R")
-
-#18. Computes the accessibility measure for private transport in 2012
-source("18_TA_privado_2012_wmin.R")
-
-#19. Computes the accessibility measure for public transport in 2017
-source("19_TA_publico_2017_wmin.R")
-
-#20. Computes the accessibility measure for public transport in 2012
-source("20_TA_publico_2012_wmin.R")
-
-#21. Computes the accessibility measure for walking(network) in 2017
-source("21_TA_pie_2017_wmin.R")
-
-#22. Computes the accessibility measure for walking(network) in 2012
-source("22_TA_pie_2012_wmin.R")
-
-#22.5 Creates constant breaks for the maps
-source("22_5_Breaks_Maps.R")
-
-#23. Computes the accessibility measure for walking(network) in 2012
-source("23_Maps_for_ta.R")
-
-#24. Creates maps using the computed employment from step 16. 
-source("24_Maps_for_employment.R")
-
-#25. It creates maps that describe the commuting patterns from the OD survey
-source("25_Map_journeys.R")
-
-#26. Creates a .tex table with descriptive stats for the commuting times
-source("26_Descriptves_times.R")
 
 
 
