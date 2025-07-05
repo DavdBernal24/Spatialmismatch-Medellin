@@ -95,11 +95,9 @@ source("19_Maps_Computedtimes_2012.R")
 # at the end we used a fixed wage Wt that only changes in time
 source("20_Wages_Strata.R")
 
-
 #21. This code computes discrete cost measures of public and private
 # Transportation regressions, this how we initially used to compute the costs
 source("21_Discrete_Cost.R")
-
 
 #22. Computes Accessibility measure for private transport 2017
 source("22_TA_Private_2017.R")
@@ -112,6 +110,34 @@ source("24_TA_Public_2017.R")
 
 #25. Computes Accessibility measure for public transport 2012
 source("25_TA_Public_2012.R")
+
+#26. Creates descriptives fo the accessibility using discrete cost (tables B1 and B2)
+source("26_Descriptives_DistancesDiscrete_TA.R")
+
+#27. This code computes dependent and independent employment for 2017 
+source("27_Emp_ind_dep.R")
+
+#28. This code creates maps for employment for 2017 and 2012 and also for dependent
+# and independent employment in 2017
+source("28_Emp_ind_dep_Maps.R")
+
+#29. Creates histograms by mode of transportation using OD data, it creates for both travel times and participation
+source("29_Modes_Histograms.R")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
