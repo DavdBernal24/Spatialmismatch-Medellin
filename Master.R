@@ -84,7 +84,6 @@ source("16_Reported_Descriptives.R")
 #17. This code computes decriptives for computed travel times
 source("17_Computed_Descriptives_Times.R")
 
-
 #18. This code creates Maps for computed travel times in 2017
 source("18_Maps_Computedtimes_2017.R")
 
@@ -123,6 +122,56 @@ source("28_Emp_ind_dep_Maps.R")
 
 #29. Creates histograms by mode of transportation using OD data, it creates for both travel times and participation
 source("29_Modes_Histograms.R")
+
+#30 This code does the same as code 9 but using morning rush data
+source("30_TimesDifferences_Communes_Early.R")
+
+#31 This code does the same as code 11 but using morning rush data
+source("31_TimeDifferences_SIT_Early.R")
+
+#32 This code does the same as code 12 but using morning rush data
+source("32_Matrixes_2012_Early.R")
+
+#33 This code 
+source("33_Sensitivity Distance.R")
+
+#34 This code does the same as code 12 but using morning rush data
+source("34_Binsreg_Costs.R")
+
+#35 This code computes the Accessibility measure for private transport in 2017 using the new cost
+source("35_NewTA_Private_2017.R")
+
+#36. This code computes the Accessibility measure for private transport in 2012 using the new cost
+source("36_NewTA_Private_2012.R")
+
+#37. This code computes the Accessibility measure for public transport in 2017 using the new cost
+source("37_NewTA_Public_2017.R")
+
+#38. This code computes the Accessibility measure for public transport in 2012 using the new cost
+source("38_NewTA_Public_2012.R")
+
+#39. This code computes descriptive stats for  the main results of the paper
+source("39_Descriptives_NewTA.R")
+
+#40. This code creates breaks for the new accessibility measure maps
+source("40_Breaks_NewTA.R")
+
+#41. This code creates maps for the new accessibility measure
+source("41_Maps_NewTA.R")
+
+#42. This code computes the accessibility measure using morning rush hour data for private transport in 2012
+source("42_NewTA_Private_Early_2012.R")
+
+#43. This code computes the accessibility measure using morning rush hour data for public transport in 2012
+source("43_NewTA_Public_Early_2012.R")
+
+#44. This code descriptive stats for the accessibility measure using morning rush data
+source("44_DescriptivesNewTA_MorningRush.R")
+
+
+
+
+
 
 
 

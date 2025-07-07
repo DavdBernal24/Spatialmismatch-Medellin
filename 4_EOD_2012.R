@@ -9,7 +9,7 @@
 ### This code filters travel times data for the 2012 EOD
 
 
-#Required libraries
+
 
 
 # These libraries help you to read and transform data
@@ -17,9 +17,12 @@ library(dplyr)
 library(readxl)
 library(readr)
 library(rstatix)
+library(stringr) # detect specific strings
+
 
 # Library to work with spatial data
 library(rgdal)
+
 
 ## Working directory
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
@@ -34,9 +37,6 @@ rm(list = ls())
 #                                                             #
 #-------------------------------------------------------------#
 
-
-#-------------------------------------------------------------#
-
 EOD2012 = read_excel("Data/EOD_2012.xlsx")
 
 ## I will create a variables with all the modes used in different stages
@@ -46,13 +46,31 @@ EOD2012$Medios = paste(EOD2012$Etapa1MT, EOD2012$Etapa2MT, EOD2012$Etapa3MT,
                        EOD2012$Etapa7MT, sep = "-") 
 
 ## Setting transportation mode "Walking" if there is not mode in stage 2 and stage 1 is walking
-EOD2012$MedioTTE <- ifelse(is.na(EOD2012$Etapa2MT), EOD2012$Etapa1MT, 
-                           ifelse(EOD2012$Etapa1MT == 0, EOD2012$Etapa2MT,
-                                  EOD2012$Etapa1MT))
+EOD2012$MedioTTE = ifelse(is.na(EOD2012$Etapa2MT), EOD2012$Etapa1MT, 
+                          ifelse(EOD2012$Etapa1MT == 0, EOD2012$Etapa2MT,
+                                 EOD2012$Etapa1MT))
 
 
 ## if in any stage the transportation mode is Metro system, I keep it over the others
 EOD2012$MedioTTE2 = ifelse(grepl("3", EOD2012$Medios), 3, EOD2012$MedioTTE)
+
+## Creating a dummy variable for trips in public transport with more
+# than one mode
+EOD2012$Multimode =  sapply(EOD2012$Medios, function(obs) {
+  # Extract unique numbers from the string
+  nums <- unique(str_extract_all(obs, "\\d")[[1]])
+  # Check if at least two of '1', '2', '3', "6", and "50" are present
+  sum(c("1", "2", "3", "4", "5", "6", "50") %in% nums) >= 2
+}) * 1  # Convert logical to numeric (1/0)
+
+
+EOD2012$Number_modes =  sapply(EOD2012$Medios, function(obs) {
+  # Extract unique numbers from the string
+  nums = unique(str_extract_all(obs, "\\d")[[1]])
+  # Check if at least two of '1', '2', '3', "6", and "50" are present
+  sum(c("1", "2", "3", "4", "5", "6", "50") %in% nums) 
+  
+})
 
 
 
@@ -138,7 +156,8 @@ times_eod_2012 = eodw_2012[c("IdMunicipioo", "IdMunicipiod",
                              "IdSito", "Horao", 
                              "IdSitd", "Horad", 
                              "MedioTTE2", 
-                             "Medios3", "Medio_reg", "dpie","dpub","dpri"
+                             "Medios3", "Medio_reg", "dpie","dpub","dpri", "Multimode", 
+                             "Number_modes"
 )]
 
 ## Computing travel times in minutes
@@ -174,26 +193,15 @@ times_eod_2012 = merge(times_eod_2012, comunas,
 colnames(comunas) = c("IdMunicipiod","IdComunad","IdSitd")
 
 
-
-# Expansion factors for the whole metropolitan area
-factor_exp_all = EOD2012[!is.na(EOD2012$IdComunao),]
-factor_exp_all = factor_exp_all[c("IdComunao","PrimeroDeFactorExpansion", "DescripcionComBarrioo")]
-factor_exp_all = factor_exp_all[!duplicated(factor_exp_all[,c("IdComunao")]),]
-
-
-
-# Expansion factors for Medellin
+## Expansion factors for Medellin
 factor_exp = EOD2012[EOD2012$IdMunicipioo == "10",]
 factor_exp = factor_exp[!is.na(factor_exp$IdComunao),]
-factor_exp = factor_exp[c("IdComunao","PrimeroDeFactorExpansion", "DescripcionComBarrioo")]
+factor_exp = factor_exp[c("IdComunao","PrimeroDeFactorExpansion")]
 factor_exp = factor_exp[!duplicated(factor_exp[,c("IdComunao")]),]
 
 
 times_eod_2012 = merge(times_eod_2012, factor_exp, 
                        by.x = c("IdComunao"), by.y = c("IdComunao"), all.x = T)
-
-times_eod_2012_allcities =  merge(times_eod_2012, factor_exp_all, 
-                                  by.x = c("IdComunao"), by.y = c("IdComunao"), all.x = T)
 
 #Saving it 
 write.csv(times_eod_2012, row.names = FALSE, file = "Base/times_eod_2012.csv")
@@ -204,24 +212,8 @@ write.csv(times_eod_2012, row.names = FALSE, file = "Base/times_eod_2012.csv")
 #             shapes equivalence we made on the first code    #
 #-------------------------------------------------------------#
 
-#### I want to see the number of trips that go to Medellin
-times_eod_2012_allcities = subset(times_eod_2012_allcities, times_eod_2012_allcities$IdMunicipiod  == "10") 
-
-
-## Dummy for trips from other cities to Medellin
-times_eod_2012_allcities$outside = ifelse(times_eod_2012_allcities$IdMunicipioo != 10 | times_eod_2012_allcities$IdComunao >= 61, 1, 0)
-
-
-
-## % of trips from other municipalities and townships to Medellin
-
-total_cities_to_medellin = (sum(times_eod_2012_allcities$outside, na.rm = TRUE)/ nrow(times_eod_2012_allcities))* 100
-
-#Note:
-# 26.7% Come from other Municipalities and townships to Medellin
-
-
 ## Filtering data for Medellin
+
 # We keep the communes < 61 since the larger IDs are twonships
 times_eod_2012 = subset(times_eod_2012, times_eod_2012$IdMunicipiod == "10")
 times_eod_2012 = subset(times_eod_2012, times_eod_2012$IdMunicipioo == "10")

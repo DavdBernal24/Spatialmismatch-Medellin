@@ -41,6 +41,7 @@ rm(list = ls())
 #-------------------------------------------------------------#
 
 
+## Expansion factors- We use the ones provided by the RISE
 
 eod_rise = read_excel("Data/factor_rise.xlsx") ## This information was provided by the RISE
 eod_rise = subset(eod_rise, !is.na(id_comuna))
@@ -57,7 +58,7 @@ viajes = read_delim("Data/EOD_2017_DatosViajes.csv", ";", escape_double = FALSE,
 moradores = read_delim("Data/EOD_2017_DatosMoradores.csv", ";", escape_double = FALSE, trim_ws = TRUE)
 
 
-## Merging the files (viajes + moradores
+## Merging the files (viajes + moradores)
 
 eod2017 = merge(viajes, moradores, by.x = c("ID_HOGAR", "ID_MORADOR"), 
                 by.y = c("ID_HOGAR", "ORDEN_MORADOR"), all.x = T)
@@ -112,6 +113,30 @@ eod2017$MedioTTE = ifelse(is.na(eod2017$Medio_TTE2), eod2017$Medio_TTE1,
 
 eod2017$MedioTTE2 = ifelse(grepl("3", eod2017$Medios), 3, eod2017$MedioTTE)
 
+
+
+## Creating a dummy variable for trips in public transport with more
+# than one mode
+eod2017$Multimode =  sapply(eod2017$Medios, function(obs) {
+  # Extract unique numbers from the string
+  nums <- unique(str_extract_all(obs, "\\d")[[1]])
+  # Check if at least two of '1', '2', '3', "6", and "50" are present
+  sum(c("1", "2", "3", "4", "5", "6", "7", "12", "13", "14", "15", 
+        "19", "20") %in% nums) >= 2
+}) * 1  # Convert logical to numeric (1/0)
+
+
+eod2017$Number_modes =  sapply(eod2017$Medios, function(obs) {
+  # Extract unique numbers from the string
+  nums = unique(str_extract_all(obs, "\\d")[[1]])
+  # Check if at least two of '1', '2', '3', "6", and "50" are present
+  sum(c("1", "2", "3", "4", "5", "6", "7", "12", "13", "14", "15", 
+        "19", "20") %in% nums) 
+})
+
+
+
+
 ## Final classification
 
 colnames(categories) = c("MODO_TTE","MedioTTE2","Medio_TTE","Medio_res","Medio_res2")
@@ -159,9 +184,6 @@ eodw_2017 = merge(eodw_2017, eod_rise, by.x = c("ID_COMUNA_O"),
 
 eodw_2017$factor_expansion = as.numeric(eodw_2017$factor_expansion)
 
-# I just want to look at the communes IDs and names here
-eod_temp_check = subset(eodw_2017, select = c(ID_COMUNA_D, COMUNA_D, ID_COMUNA_O, COMUNA_O))
-
 
 ## Variables we keep from the survey
 times_eod_2017 = eodw_2017[c("ID_MORADOR","ID_MUNICIPIO_O", "ID_MUNICIPIO_D", 
@@ -171,8 +193,7 @@ times_eod_2017 = eodw_2017[c("ID_MORADOR","ID_MUNICIPIO_O", "ID_MUNICIPIO_D",
                              "Medios3", "Medio_reg", "dpie","dpub","dpri",
                              "OCUPACION","DESC_OCUPACION",
                              "NIVEL_LABORAL","DESC_NIVEL_LABORAL",
-                             "DEDICACION_LABORAL","DESC_DEDICACION_LABORAL", "COMUNA_D", 
-                             "COMUNA_O", "MUNICIPIO_O", "MUNICIPIO_D")]
+                             "DEDICACION_LABORAL","DESC_DEDICACION_LABORAL", "Multimode", "Number_modes")]
 
 ## Organizing format of the dates
 
@@ -220,33 +241,16 @@ rm(factor_exp)
 write.csv(times_eod_2017, row.names = FALSE, file = "Base/times_eod_2017.csv")
 
 
-
-
 #-------------------------------------------------------------#
 #             4. Filtering data for Medellin using the        #
 #             shapes equivalence we made on the first code    #
 #-------------------------------------------------------------#
-
-
-
-#### I want to see the number of trips that go to Medellin
-times_eod_2017_allcities = subset(times_eod_2017, times_eod_2017$ID_MUNICIPIO_D  == "001") 
-
-
-## Dummy for trips from other cities and twonships to Medellin 
-times_eod_2017_allcities$outside = ifelse(times_eod_2017_allcities$ID_MUNICIPIO_O != "001" | times_eod_2017_allcities$ID_MUNICIPIO_O >= 44, 1, 0)
-
-## % of trips from other municipalities and townships to Medellin
-total_cities_to_medellin = (sum(times_eod_2017_allcities$outside, na.rm = TRUE)/ nrow(times_eod_2017_allcities))* 100
-
 
 ## Here Medellin is 001 and it communes IDs are represented with values < 44
 
 times_eod_2017 = subset(times_eod_2017, times_eod_2017$ID_MUNICIPIO_D == "001")
 times_eod_2017 = subset(times_eod_2017, times_eod_2017$ID_MUNICIPIO_O == "001")
 times_eod_2017 = times_eod_2017[times_eod_2017$ID_COMUNA_D < 44,]
-
-
 
 ## Loading SIT map
 sit_zones = readOGR("Data/Shapefiles/SITs_2017/SITzones2017.shp", layer = "SITzones2017") #Maps for 2017
@@ -300,9 +304,9 @@ times_eod = times_eod %>%
 
 times_eod = subset(times_eod, select = -ID_temp) # I don't need this variables
 
-
 #Saving it 
 write.csv(times_eod, row.names = FALSE, file = "Base/times_eod_2017_filter.csv")
+
 
 #-------------------------------------------------------------#
 #            Ratio travel times between 7 and 9am             #
@@ -354,7 +358,7 @@ for(name in names(eod_list)){
   data = eod_list[[name]]
   
   data = data %>% 
-    group_by(ID_COMUNA_O, COMUNA_O,Medio_reg) %>% 
+    group_by(ID_COMUNA_O,Medio_reg) %>% 
     summarize(minutes = mean(minutos, na.rm = TRUE)) # I call it minutes early because I am restricting the time
   
   data = data %>% 
@@ -368,7 +372,7 @@ for(name in names(eod_list)){
 }
 
 
-eod_collapsed_2017 = Reduce(function(x, y) merge(x, y, by = c("ID_COMUNA_O", "COMUNA_O", "Medio_reg"), all = TRUE), eod_list)
+eod_collapsed_2017 = Reduce(function(x, y) merge(x, y, by = c("ID_COMUNA_O", "Medio_reg"), all = TRUE), eod_list)
 
 ### Ratios 
 
