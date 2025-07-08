@@ -1,5 +1,5 @@
 
-**Better or Worse Job Accessibility: Understanding Changes in Spatial Mismatch – Evidence from Medellín, Colombia**
+**Better or Worse Job Accessibility? Understanding Changes in Spatial Mismatch – Evidence from Medellín, Colombia**
 
 **Authors:** David Bernal; [Gustavo A. García](https://gusgarciacruz.github.io/cv); [Jorge Pérez-Pérez](https://jorgeperezperez.com/)
 
@@ -8,7 +8,7 @@
 ## 📄 Overview
 
 This repository contains all the code used to replicate the results of the paper:  
-**“Better or Worse Job Accessibility: Understanding Changes in Spatial Mismatch – Evidence from Medellín, Colombia.”**
+**“Better or Worse Job Accessibility? Understanding Changes in Spatial Mismatch – Evidence from Medellín, Colombia.”**
 
 All code (except for the final two scripts) is written in **R**.
 
