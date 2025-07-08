@@ -3,7 +3,7 @@
 #                     the intra-urban level: evidence from  Medell?n, Colombia
 # Authors:            David Bernal; Gustavo Garcia; Jorge Perez
 # Code created by :   Jorge Emilio Melendez
-# Last modification : 18/06/2025
+# Last modification : 
 # Modified by: 
 #--------------------------------------------------------------------------------------------------------
 # Purpose:            This code creates the employment data we need to do the bootstrapping
@@ -38,7 +38,7 @@ bases <- c("2012", "2017")
 for (i in 1:length(bases)) {
   
   # abrimos base de datos de empleo
-  emp = read_csv(paste0("Base/emp", bases[i], "_new.csv"))
+  emp = read_csv(paste0("Base/emp", bases[i], ".csv"))
   
   
   # variables que necesitamos para genrar simulaciones de empleo a nivel indiviudal

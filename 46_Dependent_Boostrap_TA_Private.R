@@ -52,8 +52,8 @@ rm(list = ls())
 
 
 ## ----- Empleo
-emp17 = read_csv("T:/Spatial Mismatch/Base/emp2017.csv")
-emp12 = read_csv("T:/Spatial Mismatch/Base/emp2012.csv")
+emp17 = read_csv("Base/emp2017.csv")
+emp12 = read_csv("Base/emp2012.csv")
 
 setDT(emp12)
 setDT(emp17)
@@ -116,11 +116,11 @@ for (iter in 1:bs) {
   #------------------------------------------------
   
   ## ----- Loading SIT map
-  sit_zones = read_sf("T:/Spatial Mismatch/Data/Shapefiles/SITs_2017/SITzones2017.shp", layer = "SITzones2017") #Maps for 2017
+  sit_zones = read_sf("Data/Shapefiles/SITs_2017/SITzones2017.shp", layer = "SITzones2017") #Maps for 2017
   sit_zones$matrix_order = c(1:nrow(sit_zones))
   
   ## ----- Employment
-  emp = read_csv("T:/Spatial Mismatch/Base/emp2012.csv")
+  emp = read_csv("Base/emp2012.csv")
   
   ## ----- Going to try to get some comuna ids from this
   comunaids = emp %>%  group_by(k) %>% filter(row_number()==1)
@@ -129,14 +129,14 @@ for (iter in 1:bs) {
   comunaids = rename(comunaids, comid = empcom)
   
   ## ----- Travel times
-  travel_times = read_csv("T:/Spatial Mismatch/Base/travel_times_private_2012.csv")
+  travel_times = read_csv("Base/travel_times_private_2012.csv")
   colnames(travel_times) = sit_zones$Name
   
   ## ----- Roads Distances (BING)
-  travel_distances = read_csv("T:/Spatial Mismatch/Base/bing_distances_matrix.csv")
+  travel_distances = read_csv("Base/bing_distances_matrix.csv")
   
   ## ----- Individual employment
-  ind_emp = read_csv("T:/Spatial Mismatch/Base/empleo_individual_2012.csv")
+  ind_emp = read_csv("Base/empleo_individual_2012.csv")
   
   ## Merge the comuna ids to this
   ind_emp = merge(ind_emp,comunaids, by = "k")
@@ -152,7 +152,7 @@ for (iter in 1:bs) {
   
   prom <- mean(as.matrix(div))
   
-  d = read_csv("T:/Spatial Mismatch/Base/mean_distance_border.csv")
+  d = read_csv("Base/mean_distance_border.csv")
   d$time = (d$distance/1000)/prom
   d$time2 = ifelse(d$time==0,mean(d$time),d$time)
   
@@ -163,7 +163,7 @@ for (iter in 1:bs) {
   
   
   ## Costs (Average wage)
-  costs = read_csv("T:/Spatial Mismatch/Base/costs_wmin.csv")
+  costs = read_csv("Base/costs_wmin.csv")
   costs = costs[c("k","wmin2012")]
   
   ## Loading cost information from regressions 
@@ -178,7 +178,7 @@ for (iter in 1:bs) {
   
   
   ### Loading data with the distances I want to compute the measure. 
-  transport_cost = read_csv("T:/Spatial Mismatch/Base/Transport_costs.csv")
+  transport_cost = read_csv("Base/Transport_costs.csv")
   
   #Keeping the vars I need for public 2017
   transport_cost = subset(transport_cost, select = c(sito, sitd, cost_2012_private))
@@ -360,7 +360,7 @@ for (iter in 1:bs) {
   #----------------------------------------------------------------
   
   ### Loading data with the distances I want to compute the measure. 
-  transport_cost = read_csv("T:/Spatial Mismatch/Base/Transport_costs.csv")
+  transport_cost = read_csv("Base/Transport_costs.csv")
   
   #Keeping the vars I need for public 2017
   transport_cost = subset(transport_cost, select = c(sito, sitd, cost_2017_private))
@@ -386,11 +386,11 @@ for (iter in 1:bs) {
   # Volvemos a abrir bases porque hay unas especificas para 2017
   
   ## ----- Loading SIT map
-  sit_zones = read_sf("T:/Spatial Mismatch/Data/Shapefiles/SITs_2017/SITzones2017.shp", layer = "SITzones2017") # Maps for 2017
+  sit_zones = read_sf("Data/Shapefiles/SITs_2017/SITzones2017.shp", layer = "SITzones2017") # Maps for 2017
   sit_zones$matrix_order = c(1:nrow(sit_zones))
   
   ## ----- Employment
-  emp = read_csv("T:/Spatial Mismatch/Base/emp2017.csv")
+  emp = read_csv("Base/emp2017.csv")
   
   ## ----- Going to try to get some comuna ids from this
   comunaids = emp %>% group_by(k) %>%
@@ -400,27 +400,27 @@ for (iter in 1:bs) {
   comunaids = rename(comunaids, comid = empcom)
   
   ## ----- Travel times
-  travel_times = read_csv("T:/Spatial Mismatch/Base/bing_travel_duration_full.csv")
+  travel_times = read_csv("Base/bing_travel_duration_full.csv")
   travel_times = travel_times/60 #Para que quede en minutos
   
   ## ----- Distance by roads
-  travel_distances = read_csv("T:/Spatial Mismatch/Base/bing_distances_matrix.csv")
+  travel_distances = read_csv("Base/bing_distances_matrix.csv")
   
   
   ## ----- Individual employment
-  ind_emp = read_csv("T:/Spatial Mismatch/Base/empleo_individual_2017.csv")
+  ind_emp = read_csv("Base/empleo_individual_2017.csv")
   
   ## Merge the comuna ids to this
   ind_emp = merge(ind_emp,comunaids, by = "k")
   
   
   ## costs (Average wage)
-  costs = read_csv("T:/Spatial Mismatch/Base/costs_wmin.csv")
+  costs = read_csv("Base/costs_wmin.csv")
   costs = costs[c("k","wmin2017")]
   
   
   ## Distance to the borders
-  d = read_csv("T:/Spatial Mismatch/Base/mean_distance_border.csv")
+  d = read_csv("Base/mean_distance_border.csv")
   
   div = travel_distances/travel_times
   div[is.na(div)] = 0
@@ -582,7 +582,7 @@ names(results) <- c("mean_2012", "mean_adj_2012", "mean_2017", "mean_adj_2017")
 
 # guardamos la base de datos
 write.csv(results, 
-          "//bmdgiesan/DGIESAN/PROYECTOS/DASPERI/DatosInvestigación/Spatial Mismatch/Base/bootstrap_dependiente_TA_Private_remuestreo_parejas_2025.csv")
+          "Base/bootstrap_dependiente_TA_Private_remuestreo_parejas_2025.csv")
 
 
 
@@ -594,7 +594,7 @@ write.csv(results,
 #---------------------------------------------------------------------------
 
 # abrimos csv con resultados
-results_final <- fread("//bmdgiesan/DGIESAN/PROYECTOS/DASPERI/DatosInvestigación/Spatial Mismatch/Base/bootstrap_dependiente_TA_Private_remuestreo_parejas_2025.csv")
+results_final <- fread("Base/bootstrap_dependiente_TA_Private_remuestreo_parejas_2025.csv")
 results_final <- results_final %>% dplyr::select(-V1)
 
 # generamos diferencia de medida ajustada y cambio porcentual de medida ajustada
@@ -626,5 +626,5 @@ results_final <- results_final %>% distinct(mean_priv_2012, .keep_all = TRUE)
 
 # guardamos csv para tex
 write.csv(results_final, 
-          "//bmdgiesan/DGIESAN/PROYECTOS/DASPERI/DatosInvestigación/Spatial Mismatch/Base/bootstrap_dependiente_TA_Private_for_tab_remuestreo_parejas_2025.csv")
+          "Base/bootstrap_dependiente_TA_Private_for_tab_remuestreo_parejas_2025.csv")
 
