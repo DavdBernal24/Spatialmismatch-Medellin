@@ -1,5 +1,6 @@
 
 # **Better or Worse Job Accessibility? Understanding Changes in Spatial Mismatch – Evidence from Medellín, Colombia**
+Published in Journal of Transport Geography (Accepted), 2025
 
 **Authors:** David Bernal; [Gustavo A. García](https://gusgarciacruz.github.io/cv); [Jorge Pérez-Pérez](https://jorgeperezperez.com/)
 
