@@ -1,7 +1,7 @@
 
 **Better or Worse Job Accessibility Understanding Changes in Spatial Mismatch – Evidence from Medellín, Colombia**
 
-**Authors:** David Bernal; Jorge Perez Perez; (Gustavo A. Garcia)[https://gusgarciacruz.github.io/cv]
+**Authors:** David Bernal; Jorge Perez Perez; [Gustavo A. Garcia](https://gusgarciacruz.github.io/cv)
 
 ---
 
