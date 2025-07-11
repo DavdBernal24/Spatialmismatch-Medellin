@@ -17,7 +17,7 @@ set more off
 
 
 global project    "C:\Github_Folders\Spatial_Mismatch_Rep"
-global datadir    "$project/Data"
+global datadir    "$project/Base"
 global figdir     "$project/Output/Figures"
 
 cd "$datadir"
@@ -29,14 +29,14 @@ cd "$datadir"
 import delimited "$datadir/Heterogeneity.csv", encoding(utf8) varnames(1) clear
 
 // Rename age group variables for clarity
-rename v23 age_0_5_p
-rename v24 age_6_10_p
-rename v25 age_11_15_p
-rename v26 age_16_17_p
-rename v27 age_18_24_p
-rename v28 age_25_40_p
-rename v29 age_41_65_p
-rename v30 age_65plus_p
+rename page_0_5 age_0_5_p
+rename page_6_10 age_6_10_p
+rename page_11_15 age_11_15_p
+rename page_16_17 age_16_17_p
+rename page_18_24 age_18_24_p
+rename page_25_40 age_25_40_p
+rename page_41_65 age_41_65_p
+rename page_65m age_65plus_p
 
 // Create variables to store `percap` values for 2012 and 2017
 gen percap_2012 = .

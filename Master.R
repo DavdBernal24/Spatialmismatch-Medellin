@@ -168,10 +168,38 @@ source("43_NewTA_Public_Early_2012.R")
 #44. This code descriptive stats for the accessibility measure using morning rush data
 source("44_DescriptivesNewTA_MorningRush.R")
 
+#45. This code prepares employment data for the bootstrap
+source("45_Build_Individual_Employment.R")
+
+#46. This code computes the Bootstrap for private transport (It takes a while to run)
+source("46_Dependent_Bootstrap_TA_Private.R")
+
+#47. This code computes the Bootstrap for public transport (It takes a while to run)
+source("47_Dependent_Bootstrap_TA_Publice.R")
+
+#48. This code organizes data from the GEIH
+##Note: you have to run this code in R 4.1.0 or above! 
+#Otherwise the package "summarytools" won't work
+source("48_MedXcomunaGEIH2011_2017.R")
+
+#49. It mergers SIT zones data with socioeconomic strata data
+source("49_Merge_SITs_estrato.R")
+
+#50. It creates a data set with the measure by different groups. 
+
+############## STATA CODES
+library(RStata)
+options("RStata.StataPath" = "C:/Program Files/Stata18/StataMP-64.exe")  # adjust path to your system
+options("RStata.StataVersion" = 18)
+
+#Note: Please, also fix your directories on the do-files
+
+#51. Creates figures in Stata, hetereogenous effects of the measure
+stata("C:/Github_Folders/Spatial_Mismatch_Rep/51_Figure_B5,do", data.in = NULL, data.out = FALSE, stata.echo = TRUE)
 
 
-
-
+#52. Creates more figures in Stata, hetereogenous effects of the measure
+stata("52_Figure_B6,do", data.in = NULL, data.out = FALSE, stata.echo = TRUE)
 
 
 

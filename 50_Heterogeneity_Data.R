@@ -38,7 +38,7 @@ rm(list = ls())
 
 
 # Loading the Map with  SIT Zones and strata data
-sit_zones = st_read("Data/SITs_with_estrato/SITs_with_estrato.shp") #Maps for 2017
+sit_zones = st_read("Data/Shapefiles/SITs_with_estrato/SITs_with_estrato.shp") #Maps for 2017
 
 #Loading communes shapefile
 comunas = st_read("Data/Shapefiles/Communes/Comunas.shp")
@@ -53,7 +53,7 @@ sit_zones <- st_intersection(sit_zones, comunas) %>%
   group_by(id_sit) %>%  # Assuming "ID_shp1" uniquely identifies shp1
   slice_max(order_by = intersection_area, n = 1) %>%  # Keep the largest overlap
   ungroup() %>%
-  select(id_sit, Cod_Comuna, estrt_s)  # Keep only relevant columns
+  dplyr::select(id_sit, Cod_Comuna, estrt_s)  # Keep only relevant columns
 
 
 sit_zones = st_drop_geometry(sit_zones)
@@ -93,7 +93,7 @@ Results = rbind(Results_Private_2017, Results_Public_2017, Results_Private_2012,
 
 
 ### Loading shares
-shares = read_excel("Base/Heterogeneity/MedXcomunaGEIH2011_2017.Xlsx")
+shares = read_excel("Base/MedXcomunaGEIH2011_2017.Xlsx")
 shares$year = ifelse(shares$year == 2011, 2012, shares$year)
 
 shares$comuna = as.numeric(shares$comuna) #Numeric for the merge
@@ -121,8 +121,6 @@ Results = merge(Results, shares, by = c("year", "comuna"), all.x = TRUE)
 ##Dropping NAs
 Results = Results[!is.na(Results$strata), ]
 
-##Dropping the strata mode (This one is a commune level, we do not want it)
-Results = subset(Results, select = -c(estrato_moda))
 
 #####Saving
 write.csv(Results, "Base/Heterogeneity.csv")
