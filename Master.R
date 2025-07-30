@@ -42,9 +42,11 @@ source("6_Shapefile_Medellin_Fix.R")
 
 #7. Getting the population densities, we use data from Alcaldia de Medellin, you can find it on this link. 
 # http://medata.gov.co/medell%C3%ADn-en-cifras/proyecci%C3%B3n-poblaci%C3%B3n-2016-2020, we also make some maps of it
+# (Figure 1a)
 source("7_Population_Density.R")
 
 #8. Income distribution, we use the the strata lvl in Colombia
+# (Figure 1b)
 source("8_Socioeconomic_Strata.R")
 
 #9. This code computes travel times differences between 2017 and 2012, we will use it later to fill the 2012 travel
@@ -78,16 +80,18 @@ source("14_Employment_Data.R")
 source("15_Wages_ECV.R") 
 
 
-#16. This code computes decriptives for reported travel times
+#16. This code computes decriptives for reported travel times (Second part Table 2)
 source("16_Reported_Descriptives.R") 
 
-#17. This code computes decriptives for computed travel times
+#17. This code computes decriptives for computed travel times (First part Table 2)
 source("17_Computed_Descriptives_Times.R")
 
 #18. This code creates Maps for computed travel times in 2017
+# (Figures 3a and 3c)
 source("18_Maps_Computedtimes_2017.R")
 
 #19. This code creates Maps for computed travel times in 2012
+# (Figures 3b and 3d)
 source("19_Maps_Computedtimes_2012.R")
 
 #20. This code computes wages by socioeconomic strata. However, 
@@ -110,7 +114,7 @@ source("24_TA_Public_2017.R")
 #25. Computes Accessibility measure for public transport 2012
 source("25_TA_Public_2012.R")
 
-#26. Creates descriptives fo the accessibility using discrete cost (tables B1 and B2)
+#26. Creates descriptives fo the accessibility using discrete cost (Tables B1 and B2)
 source("26_Descriptives_DistancesDiscrete_TA.R")
 
 #27. This code computes dependent and independent employment for 2017 
@@ -118,9 +122,11 @@ source("27_Emp_ind_dep.R")
 
 #28. This code creates maps for employment for 2017 and 2012 and also for dependent
 # and independent employment in 2017
+# (Figures 4 and B2)
 source("28_Emp_ind_dep_Maps.R")
 
 #29. Creates histograms by mode of transportation using OD data, it creates for both travel times and participation
+# (Figure 2)
 source("29_Modes_Histograms.R")
 
 #30 This code does the same as code 9 but using morning rush data
@@ -132,7 +138,7 @@ source("31_TimeDifferences_SIT_Early.R")
 #32 This code does the same as code 12 but using morning rush data
 source("32_Matrixes_2012_Early.R")
 
-#33 This code 
+#33 Code finds the average and the median distance of trips in public transport
 source("33_Sensitivity Distance.R")
 
 #34 This code does the same as code 12 but using morning rush data
@@ -151,12 +157,14 @@ source("37_NewTA_Public_2017.R")
 source("38_NewTA_Public_2012.R")
 
 #39. This code computes descriptive stats for  the main results of the paper
+# (part of Table 2 without the confidence intervals)
 source("39_Descriptives_NewTA.R")
 
 #40. This code creates breaks for the new accessibility measure maps
 source("40_Breaks_NewTA.R")
 
 #41. This code creates maps for the new accessibility measure
+# (Figures 5, 6 and B1)
 source("41_Maps_NewTA.R")
 
 #42. This code computes the accessibility measure using morning rush hour data for private transport in 2012
@@ -166,15 +174,18 @@ source("42_NewTA_Private_Early_2012.R")
 source("43_NewTA_Public_Early_2012.R")
 
 #44. This code descriptive stats for the accessibility measure using morning rush data
+# (Table B3)
 source("44_DescriptivesNewTA_MorningRush.R")
 
 #45. This code prepares employment data for the bootstrap
 source("45_Build_Individual_Employment.R")
 
 #46. This code computes the Bootstrap for private transport (It takes a while to run)
+# (Table 2 confidence intervals for private)
 source("46_Dependent_Bootstrap_TA_Private.R")
 
 #47. This code computes the Bootstrap for public transport (It takes a while to run)
+# (Table 2 confidence intervals for public)
 source("47_Dependent_Bootstrap_TA_Publice.R")
 
 #48. This code organizes data from the GEIH
@@ -195,10 +206,12 @@ options("RStata.StataVersion" = 18)
 #Note: Please, also fix your directories on the do-files
 
 #51. Creates figures in Stata, hetereogenous effects of the measure
+# (Figure 7)
 stata("C:/Github_Folders/Spatial_Mismatch_Rep/51_Figure_B5,do", data.in = NULL, data.out = FALSE, stata.echo = TRUE)
 
 
 #52. Creates more figures in Stata, hetereogenous effects of the measure
+# (Figure 8)
 stata("52_Figure_B6,do", data.in = NULL, data.out = FALSE, stata.echo = TRUE)
 
 
