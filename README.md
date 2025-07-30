@@ -10,7 +10,7 @@ Bernal, D., García, G., and Pérez-Pérez, J. (2025). "[Better or Worse Job Acc
 ## 📄 Overview
 
 This repository contains all the code used to replicate the results of the paper:  
-**“Better or Worse Job Accessibility? Understanding Changes in Spatial Mismatch – Evidence from Medellín, Colombia.”**
+**“Better or Worse Job Accessibility? Understanding Changes in Spatial Mismatch: Evidence from Medellín, Colombia.”**
 
 All code (except for the final two scripts) is written in **R**.
 
